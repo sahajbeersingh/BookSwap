@@ -1,100 +1,254 @@
-import { Search, ArrowRight, BookOpen, RefreshCw, Users } from "lucide-react";
+import {
+  ArrowRight,
+  BookmarkCheck,
+  BookOpen,
+  Facebook,
+  Instagram,
+  Leaf,
+  MapPin,
+  Repeat2,
+  Search,
+  ShieldCheck,
+  ShoppingCart,
+  Twitter,
+  Users,
+} from "lucide-react";
 import { Link } from "react-router-dom";
+import "./Home.css";
 
-export default function Home() {
+const features = [
+  {
+    title: "Buy & Sell",
+    description:
+      "Find great prices on pre-loved books and list your finished reads in minutes.",
+    Icon: ShoppingCart,
+    tone: "sun",
+  },
+  {
+    title: "Trade & Lend",
+    description:
+      "Swap titles with nearby readers or lend safely to trusted community members.",
+    Icon: Repeat2,
+    tone: "mint",
+  },
+  {
+    title: "Reader Community",
+    description:
+      "Join local readers, discover recommendations, and keep books in circulation.",
+    Icon: Users,
+    tone: "ocean",
+  },
+];
+
+const journey = [
+  {
+    title: "Search your next story",
+    description:
+      "Discover books by title, author, or ISBN and compare options from nearby readers.",
+    Icon: Search,
+  },
+  {
+    title: "Secure your exchange",
+    description:
+      "Chat, agree, and schedule handoffs with simple safeguards and transparent profiles.",
+    Icon: ShieldCheck,
+  },
+  {
+    title: "Keep stories moving",
+    description:
+      "Once finished, relist books in a click and grow a shelf that never stops giving.",
+    Icon: BookmarkCheck,
+  },
+];
+
+function Home() {
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
-      {/* SEARCH BAR */}
-      <div className="bg-white border-b border-gray-200 px-4 py-2">
-        <div className="flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2 bg-white">
-          <Search size={16} className="text-gray-400 shrink-0" />
-          <input
-            type="text"
-            placeholder="Search books by title, author, or ISBN"
-            className="flex-1 outline-none border-none text-sm text-gray-900 placeholder-gray-400 bg-transparent"
-          />
-        </div>
-      </div>
+    <div className="home-page">
+      <div className="home-orb home-orb-left" aria-hidden="true" />
+      <div className="home-orb home-orb-right" aria-hidden="true" />
 
-      {/* MAIN */}
-      <main className="max-w-xl mx-auto px-6 py-10 flex flex-col items-center text-center gap-8">
-        {/* HERO */}
-        <div className="flex flex-col items-center gap-3">
-          <h1 className="text-3xl font-bold text-gray-900 leading-tight">
-            Buy, Sell, Trade &amp; Lend Books
-          </h1>
-          <p className="text-base text-gray-500 leading-relaxed max-w-md">
-            A community-driven marketplace for book lovers. Find your next read
-            or give your books a new home.
-          </p>
-          <div className="flex items-center gap-3 mt-1 flex-wrap justify-center">
-            <Link
-              to="/register"
-              className="flex items-center gap-1 text-sm font-medium text-purple-700 hover:underline"
-            >
-              Get Started <ArrowRight size={14} />
-            </Link>
-          </div>
-        </div>
+      <main className="home-main">
+        <section className="hero-panel">
+          <div className="hero-copy reveal-up">
+            <p className="home-tagline">
+              <BookOpen className="home-tagline-icon" />
+              REUSE . READ . REPEAT
+            </p>
 
-        <hr className="w-full border-gray-200" />
+            <h1 className="home-title">
+              Give Every Book a <span>Second Life</span> in Your City.
+            </h1>
 
-        {/* WHY BOOKSWAP */}
-        <div className="flex flex-col items-center gap-6 w-full">
-          <h2 className="text-xl font-bold text-gray-900">Why BookSwap?</h2>
+            <p className="home-subtitle">
+              Buy, sell, lend, and trade with nearby readers. Build a rotating
+              shelf, save money, and keep stories in circulation.
+            </p>
 
-          <div className="flex flex-col gap-6 w-full">
-            <div className="flex flex-col items-center gap-2">
-              <BookOpen size={28} className="text-gray-700" />
-              <h3 className="text-base font-semibold text-gray-900">
-                Buy &amp; Sell
-              </h3>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
-                Find great deals on used books or sell your collection to fellow
-                readers.
-              </p>
+            <div className="hero-buttons">
+              <Link to="/register" className="home-button home-button-primary">
+                Start swapping free
+                <ArrowRight className="home-button-icon" />
+              </Link>
+
+              <Link to="/login" className="home-button home-button-ghost">
+                I already have an account
+              </Link>
             </div>
 
-            <div className="flex flex-col items-center gap-2">
-              <RefreshCw size={28} className="text-gray-700" />
-              <h3 className="text-base font-semibold text-gray-900">
-                Trade &amp; Lend
-              </h3>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
-                Swap books with others or lend your favorites to the community.
-              </p>
-            </div>
+            <div className="hero-metrics">
+              <div className="metric-pill">
+                <Users className="metric-icon" />
+                <div>
+                  <p className="metric-value">50k+</p>
+                  <p className="metric-label">Active readers</p>
+                </div>
+              </div>
 
-            <div className="flex flex-col items-center gap-2">
-              <Users size={28} className="text-gray-700" />
-              <h3 className="text-base font-semibold text-gray-900">
-                Community
-              </h3>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
-                Connect with book lovers in your area and discover new reads.
-              </p>
+              <div className="metric-pill">
+                <Leaf className="metric-icon" />
+                <div>
+                  <p className="metric-value">220k+</p>
+                  <p className="metric-label">Books recirculated</p>
+                </div>
+              </div>
+
+              <div className="metric-pill">
+                <MapPin className="metric-icon" />
+                <div>
+                  <p className="metric-value">130+</p>
+                  <p className="metric-label">Cities connected</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <hr className="w-full border-gray-200" />
+          <aside className="search-card reveal-up">
+            <h2>Find your next read</h2>
+            <p>Search by title, author, or ISBN and discover local listings.</p>
 
-        {/* BOTTOM CTA */}
-        <div className="flex flex-col items-center gap-2">
-          <h2 className="text-xl font-bold text-gray-900">
-            Ready to start swapping?
-          </h2>
-          <p className="text-base text-gray-500">
-            Join thousands of book lovers already using BookSwap.
+            <label htmlFor="book-search" className="search-label">
+              Book search
+            </label>
+            <div className="search-field">
+              <Search className="search-icon" />
+              <input
+                id="book-search"
+                type="text"
+                placeholder="Atomic Habits, Orwell, 978..."
+              />
+            </div>
+            <button type="button" className="search-action">
+              Search books
+            </button>
+
+            <div className="book-preview-grid">
+              <article className="book-chip">
+                <h3>The Alchemist</h3>
+                <p>From 3 nearby sellers</p>
+              </article>
+              <article className="book-chip">
+                <h3>Educated</h3>
+                <p>Available to trade</p>
+              </article>
+              <article className="book-chip">
+                <h3>1984</h3>
+                <p>2 lending offers live</p>
+              </article>
+            </div>
+          </aside>
+        </section>
+
+        <section className="feature-panel">
+          <header className="section-heading">
+            <p className="section-eyebrow">Why readers choose BookSwap</p>
+            <h2>Everything you need to keep books moving.</h2>
+          </header>
+
+          <div className="feature-grid">
+            {features.map(({ title, description, Icon, tone }) => (
+              <article
+                key={title}
+                className={`feature-card feature-card-${tone}`}
+              >
+                <div className="feature-icon-wrap">
+                  <Icon className="feature-icon" />
+                </div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="journey-panel">
+          <header className="section-heading">
+            <p className="section-eyebrow">How it works</p>
+            <h2>Swap in three simple steps.</h2>
+          </header>
+
+          <div className="journey-grid">
+            {journey.map(({ title, description, Icon }, index) => (
+              <article key={title} className="journey-step">
+                <span className="journey-number">0{index + 1}</span>
+                <div className="journey-icon-wrap">
+                  <Icon className="journey-icon" />
+                </div>
+                <h3>{title}</h3>
+                <p>{description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="cta-panel">
+          <h2>Build your local reading circle today.</h2>
+          <p>
+            Join readers who buy smarter, trade easier, and turn one finished
+            book into someone else&apos;s favorite.
           </p>
-          <Link
-            to="/register"
-            className="flex items-center gap-1 text-sm font-medium text-purple-700 hover:underline mt-1"
-          >
-            Create Free Account <ArrowRight size={14} />
+          <Link to="/register" className="home-button home-button-light">
+            Create my free account
           </Link>
-        </div>
+        </section>
       </main>
+
+      <footer className="home-footer">
+        <div>
+          <p className="footer-brand">BookSwap</p>
+          <p className="footer-copy">
+            Connecting readers through shared stories.
+          </p>
+        </div>
+
+        <div className="footer-socials">
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="BookSwap on Twitter"
+          >
+            <Twitter />
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="BookSwap on Instagram"
+          >
+            <Instagram />
+          </a>
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="BookSwap on Facebook"
+          >
+            <Facebook />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
+
+export default Home;

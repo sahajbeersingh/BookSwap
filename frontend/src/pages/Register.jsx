@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Register() {
@@ -22,33 +22,6 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
-      {/* NAV */}
-      <nav className="bg-white border-b border-gray-200 flex items-center justify-between px-6 py-3">
-        <Link
-          to="/"
-          className="flex items-center gap-2 font-semibold text-gray-900 no-underline"
-        >
-          <div className="w-6 h-6 bg-purple-700 rounded flex items-center justify-center text-white text-xs">
-            <BookOpen size={13} />
-          </div>
-          BookSwap
-        </Link>
-        <div className="flex gap-1">
-          <Link
-            to="/login"
-            className="text-sm text-purple-700 px-2 py-1 hover:underline"
-          >
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className="text-sm text-purple-700 px-2 py-1 hover:underline"
-          >
-            Sign Up
-          </Link>
-        </div>
-      </nav>
-
       {/* FORM */}
       <main className="max-w-sm mx-auto px-6 py-16 flex flex-col gap-6">
         <div className="text-center">
