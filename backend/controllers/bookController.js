@@ -1,5 +1,72 @@
 const supabase = require('../config/supabaseClient');
 
+const createBook = async (req, res) => {
+  try {
+    let {
+      title,
+      author,
+      isbn,
+      publisher,
+      publication_year,
+      genre,
+      description,
+      cover_image
+    } = req.body;
+
+    title = title?.trim();
+    author = author?.trim();
+    isbn = isbn?.trim();
+
+    if (!title || !author || !isbn) {
+      return res.status(400).json({
+        error: "Title, author and ISBN are required"
+      });
+    }
+
+    const { data: existing, error: fetchError } = await supabase
+      .from('books')
+      .select('id')
+      .eq('isbn', isbn)
+      .maybeSingle();
+
+    if (fetchError) throw fetchError;
+
+    if (existing) {
+      return res.status(400).json({
+        error: "Book with this ISBN already exists"
+      });
+    }
+
+    const { data, error } = await supabase
+      .from('books')
+      .insert([
+        {
+          title,
+          author,
+          isbn,
+          publisher: publisher || null,
+          publication_year: publication_year || null,
+          genre: genre || null,
+          description: description || null,
+          cover_image: cover_image || null
+        }
+      ])
+      .select();
+
+    if (error) throw error;
+
+    res.status(201).json({
+      message: "Book created successfully",
+      data: data[0]
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message || "Internal server error"
+    });
+  }
+};
+
 const getAllBooks = async (req, res) => {
   try {
     const { limit = 10, page = 1 } = req.query;
@@ -89,5 +156,6 @@ module.exports = {
   searchByTitle,
   searchByAuthor,
   searchByISBN,
-  getAllBooks
+  getAllBooks,
+  createBook
 };
