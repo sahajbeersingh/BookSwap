@@ -1,0 +1,39 @@
+frontend/src/index.css
+  16ef12a66c09cf6b 1-2,17-21,24-26,33-43
+frontend/src/pages/Home.css
+  16ef12a66c09cf6b 213,312-316,738-741
+frontend/src/pages/Auth.css
+  16ef12a66c09cf6b 243-247,274-275,304-306
+frontend/src/components/Navbar.css
+  16ef12a66c09cf6b 99-102,107,131-133,158-160
+frontend/src/main.jsx
+  16ef12a66c09cf6b 10
+frontend/src/App.jsx
+  16ef12a66c09cf6b 9,11-18
+frontend/src/components/Navbar.jsx
+  16ef12a66c09cf6b 1,20-25,27-33,35
+frontend/index.html
+  16ef12a66c09cf6b 7-11
+frontend/src/App.css
+  16ef12a66c09cf6b 2-3,6-9,12-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.6",
+  "base_commit_sha": "bd01a1ceae41b1c17de1c182f787f3bbd564c831",
+  "prompts": {
+    "16ef12a66c09cf6b": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "31253589-6e15-442b-a7b9-48015a1f7b3a",
+        "model": "copilot/auto"
+      },
+      "human_author": "Ghoulayush",
+      "messages": [],
+      "total_additions": 105,
+      "total_deletions": 68,
+      "accepted_lines": 105,
+      "overriden_lines": 0
+    }
+  }
+}
