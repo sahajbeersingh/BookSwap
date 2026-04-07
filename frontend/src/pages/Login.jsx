@@ -1,6 +1,31 @@
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from "lucide-react";
 import { Link } from "react-router-dom";
+import "./Auth.css";
+
+const loginHighlights = [
+  {
+    title: "Fast access",
+    description: "Jump back into your saved searches and active swaps.",
+    Icon: Sparkles,
+  },
+  {
+    title: "Trusted exchanges",
+    description: "Stay in control with clear profiles and safe handoffs.",
+    Icon: ShieldCheck,
+  },
+  {
+    title: "Community shelf",
+    description: "See what nearby readers are listing, trading, and lending.",
+    Icon: Users,
+  },
+];
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -16,65 +41,105 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
-      {/* FORM */}
-      <main className="max-w-sm mx-auto px-6 py-16 flex flex-col gap-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Sign in to your BookSwap account
-          </p>
-        </div>
-
-        <div className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col gap-4">
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="you@example.com"
-              className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
-            />
+    <div className="auth-page">
+      <main className="auth-shell">
+        <section className="auth-intro">
+          <div>
+            <p className="auth-intro-badge">
+              <BookOpen className="auth-intro-badge-icon" />
+              Reconnect with your shelf
+            </p>
+            <h1>Welcome back to BookSwap.</h1>
+            <p>
+              Continue where you left off, check new listings, and keep your
+              books moving through the community.
+            </p>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <a href="#" className="text-xs text-purple-700 hover:underline">
-                Forgot password?
-              </a>
+          <div>
+            <div className="auth-points">
+              {loginHighlights.map(({ title, description, Icon }) => (
+                <div key={title} className="auth-point">
+                  <Icon className="auth-point-icon" />
+                  <div>
+                    <strong>{title}</strong>
+                    <span>{description}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="••••••••"
-              className="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-colors"
-            />
+
+            <div className="auth-stats">
+              <div className="auth-stat">
+                <p className="auth-stat-value">50k+</p>
+                <p className="auth-stat-label">Active readers</p>
+              </div>
+              <div className="auth-stat">
+                <p className="auth-stat-value">220k+</p>
+                <p className="auth-stat-label">Books shared</p>
+              </div>
+              <div className="auth-stat">
+                <p className="auth-stat-value">130+</p>
+                <p className="auth-stat-label">Connected cities</p>
+              </div>
+            </div>
           </div>
+        </section>
 
-          <button
-            onClick={handleSubmit}
-            className="w-full bg-purple-700 text-white text-sm font-medium py-2 rounded-md hover:bg-purple-800 transition-colors flex items-center justify-center gap-1 mt-1"
-          >
-            Sign In <ArrowRight size={14} />
-          </button>
-        </div>
+        <section className="auth-card">
+          <header className="auth-card-header">
+            <p className="auth-eyebrow">Sign in</p>
+            <h2>Access your account.</h2>
+            <p>Use the email and password tied to your BookSwap profile.</p>
+          </header>
 
-        <p className="text-center text-sm text-gray-500">
-          Don't have an account?{" "}
-          <Link
-            to="/register"
-            className="text-purple-700 font-medium hover:underline"
-          >
-            Sign up free
-          </Link>
-        </p>
+          <form className="auth-form" onSubmit={handleSubmit}>
+            <div className="auth-field">
+              <label className="auth-label" htmlFor="login-email">
+                Email
+              </label>
+              <input
+                id="login-email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                className="auth-input"
+                autoComplete="email"
+              />
+            </div>
+
+            <div className="auth-field">
+              <div className="auth-label-row">
+                <label className="auth-label" htmlFor="login-password">
+                  Password
+                </label>
+                <a href="#" className="auth-hint-link">
+                  Forgot password?
+                </a>
+              </div>
+              <input
+                id="login-password"
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="••••••••"
+                className="auth-input"
+                autoComplete="current-password"
+              />
+            </div>
+
+            <button type="submit" className="auth-button">
+              Sign In <ArrowRight size={16} />
+            </button>
+          </form>
+
+          <p className="auth-footer">
+            Don&apos;t have an account? <Link to="/register">Sign up free</Link>
+          </p>
+        </section>
       </main>
     </div>
   );
