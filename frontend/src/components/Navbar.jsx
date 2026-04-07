@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { BookMarked } from "lucide-react";
 import "./Navbar.css";
 
@@ -17,12 +17,22 @@ function Navbar() {
         </Link>
 
         <div className="navbar-actions">
-          <Link to="/login" className="navbar-link navbar-link-ghost">
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              `navbar-link navbar-link-ghost ${isActive ? "is-active" : ""}`
+            }
+          >
             Login
-          </Link>
-          <Link to="/register" className="navbar-link navbar-link-primary">
+          </NavLink>
+          <NavLink
+            to="/register"
+            className={({ isActive }) =>
+              `navbar-link navbar-link-primary ${isActive ? "is-active" : ""}`
+            }
+          >
             Sign Up
-          </Link>
+          </NavLink>
         </div>
       </div>
     </nav>

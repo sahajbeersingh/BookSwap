@@ -96,7 +96,15 @@
     color 180ms ease;
 }
 
+.navbar-link:focus-visible {
+  outline-color: rgba(15, 140, 113, 0.45);
+}
+
 .navbar-link:hover {
+  transform: translateY(-1px);
+}
+
+.navbar-link.is-active {
   transform: translateY(-1px);
 }
 
@@ -120,6 +128,11 @@
   background: linear-gradient(135deg, #11a07d, #0d7f66);
 }
 
+.navbar-link-primary.is-active,
+.navbar-link-ghost.is-active {
+  box-shadow: 0 0 0 1px rgba(15, 140, 113, 0.2);
+}
+
 @media (max-width: 640px) {
   .navbar-shell {
     padding: 0.7rem 0.65rem 0;
@@ -141,5 +154,9 @@
 
   .navbar-link {
     flex: 1 1 0;
+  }
+
+  .navbar-brand-tag {
+    letter-spacing: 0.11em;
   }
 }
