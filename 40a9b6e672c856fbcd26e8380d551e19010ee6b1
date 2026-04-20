@@ -1,0 +1,14 @@
+frontend/src/App.jsx
+  h_d3dbf52db58a89 1,5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "40a9b6e672c856fbcd26e8380d551e19010ee6b1",
+  "prompts": {},
+  "humans": {
+    "h_d3dbf52db58a89": {
+      "author": "Ghoulayush"
+    }
+  }
+}
