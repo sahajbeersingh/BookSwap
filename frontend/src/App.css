@@ -1,14 +1,1 @@
-#root {
-  width: 100%;
-  min-height: 100vh;
-}
 
-.app-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.app-content {
-  flex: 1;
-}
