@@ -1,0 +1,52 @@
+frontend/package.json
+  a0ed08df3d854cbc 10-11
+frontend/src/App.css
+  a0ed08df3d854cbc 1-7,9-51
+frontend/src/pages/NotFound.jsx
+  a0ed08df3d854cbc 1-19
+frontend/src/App.jsx
+  a0ed08df3d854cbc 1,5,7-8,10,14,17-20,22,26
+frontend/src/components/Navbar.jsx
+  a0ed08df3d854cbc 1-40
+frontend/src/pages/Login.jsx
+  a0ed08df3d854cbc 1-101
+frontend/src/components/Navbar.css
+  a0ed08df3d854cbc 1-8,10-96
+frontend/src/pages/Auth.css
+  a0ed08df3d854cbc 1-78
+frontend/src/pages/Sign.jsx
+  a0ed08df3d854cbc 1-120
+frontend/.env.example
+  a0ed08df3d854cbc 1
+frontend/src/lib/api.js
+  a0ed08df3d854cbc 1-45
+frontend/src/pages/Home.jsx
+  a0ed08df3d854cbc 1-144
+frontend/src/pages/Home.css
+  a0ed08df3d854cbc 1-157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2",
+  "base_commit_sha": "2c30bc1a3cbc456a4c75260eb3490695b0007643",
+  "prompts": {
+    "a0ed08df3d854cbc": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_245724946ffeod0Fcax5LAFqK2",
+        "model": "github-copilot/gpt-5.3-codex"
+      },
+      "human_author": "Ghoulayush",
+      "messages": [],
+      "total_additions": 888,
+      "total_deletions": 29,
+      "accepted_lines": 864,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_d3dbf52db58a89": {
+      "author": "Ghoulayush"
+    }
+  }
+}
