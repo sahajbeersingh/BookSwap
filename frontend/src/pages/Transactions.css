@@ -1,0 +1,83 @@
+.request-pipeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.request-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.request-columns h2 {
+  margin: 0 0 0.35rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.25rem;
+}
+
+.request-subtitle {
+  margin: 0 0 0.75rem;
+  color: #5b4a3b;
+}
+
+.request-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.request-card {
+  border: 1px solid rgba(43, 29, 17, 0.14);
+  border-radius: 1rem;
+  padding: 0.95rem;
+  background: #fffef9;
+  box-shadow: 0 14px 24px rgba(43, 29, 17, 0.08);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.request-card header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #5b4a3b;
+}
+
+.request-status {
+  background: rgba(15, 140, 113, 0.12);
+  color: #0f5f4c;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.request-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.request-meta {
+  margin: 0;
+  color: #4d3a2b;
+}
+
+.request-notes {
+  margin: 0;
+  color: #5b4a3b;
+  background: rgba(15, 140, 113, 0.06);
+  border-radius: 0.75rem;
+  padding: 0.6rem 0.7rem;
+}
+
+.request-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 900px) {
+  .request-columns {
+    grid-template-columns: 1fr;
+  }
+}

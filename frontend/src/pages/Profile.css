@@ -1,0 +1,74 @@
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+.profile-list {
+  margin: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.profile-row {
+  border: 1px solid rgba(43, 29, 17, 0.14);
+  border-radius: 0.72rem;
+  background: #fffef9;
+  padding: 0.6rem 0.7rem;
+}
+
+.profile-row dt {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6d5746;
+}
+
+.profile-row dd {
+  margin: 0.15rem 0 0;
+  color: #2f2115;
+  font-weight: 600;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.edit-profile-form {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.edit-profile-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: #37271b;
+}
+
+.edit-profile-form input,
+.edit-profile-form textarea {
+  width: 100%;
+  border: 1px solid rgba(43, 29, 17, 0.24);
+  border-radius: 0.65rem;
+  padding: 0.66rem 0.75rem;
+  background: #fffdf8;
+  color: #2b1d11;
+}
+
+.edit-profile-form textarea {
+  resize: vertical;
+}
+
+.form-actions {
+  margin-top: 0.25rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 920px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}

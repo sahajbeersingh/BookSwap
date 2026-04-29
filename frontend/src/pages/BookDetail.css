@@ -1,0 +1,157 @@
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 0.9rem;
+}
+
+.detail-overview {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: 0.95rem;
+}
+
+.detail-cover {
+  border-radius: 0.9rem;
+  overflow: hidden;
+  min-height: 230px;
+  background:
+    radial-gradient(circle at 84% 14%, rgba(15, 140, 113, 0.18), transparent 34%),
+    linear-gradient(145deg, #efe2c4 0%, #fbf6eb 100%);
+  display: grid;
+  place-items: center;
+}
+
+.detail-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-cover span {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background: #0f8c71;
+  color: #f8fffd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.detail-carousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+  height: 100%;
+}
+
+.detail-slide {
+  scroll-snap-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.detail-carousel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-summary {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+}
+
+.detail-price {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #0f6e58;
+}
+
+.detail-summary h2 {
+  margin: 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.4rem, 3.1vw, 1.8rem);
+  line-height: 1.15;
+}
+
+.detail-author {
+  margin: 0;
+  color: #614d3d;
+}
+
+.detail-description {
+  margin: 0.4rem 0 0;
+  color: #433225;
+  line-height: 1.45;
+}
+
+.detail-actions {
+  margin-top: 0.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.meta-list {
+  margin: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.meta-row {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgba(43, 29, 17, 0.14);
+  border-radius: 0.7rem;
+  background: #fffef9;
+  display: grid;
+  gap: 0.1rem;
+}
+
+.meta-row dt {
+  margin: 0;
+  font-size: 0.84rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: #6a5545;
+}
+
+.meta-row dd {
+  margin: 0;
+  color: #2f2014;
+  font-weight: 600;
+}
+
+.seller-panel p {
+  margin: 0.2rem 0;
+  color: #453425;
+}
+
+.seller-panel .btn {
+  margin-top: 0.8rem;
+}
+
+@media (max-width: 1020px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .detail-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-cover {
+    min-height: 160px;
+  }
+}

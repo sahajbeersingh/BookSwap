@@ -11,10 +11,20 @@
   width: min(1100px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 0.95rem 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.65rem;
+}
+
+.nav-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.nav-account {
+  margin-left: auto;
 }
 
 .brand {
@@ -48,9 +58,108 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.nav-row-main .nav-links {
+  flex: 1;
+  justify-content: center;
+}
+
+.nav-links-account .nav-link {
+  background: rgba(15, 140, 113, 0.08);
+}
+
+.avatar-button {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 140, 113, 0.35);
+  background: rgba(15, 140, 113, 0.1);
+  color: #154e3f;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.avatar-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 140, 113, 0.18);
+}
+
+.avatar-active {
+  box-shadow: 0 0 0 2px rgba(15, 140, 113, 0.4);
+}
+
+.avatar {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1f6a56 0%, #0f8c71 100%);
+  color: #f8fffd;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.avatar-image {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.avatar-menu {
+  position: relative;
+}
+
+.avatar-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  min-width: 170px;
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(43, 29, 17, 0.15);
+  background: #fffef9;
+  box-shadow: 0 18px 30px rgba(43, 29, 17, 0.18);
+}
+
+.avatar-dropdown a {
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.55rem;
+  font-weight: 600;
+  color: #4a3728;
+}
+
+.avatar-dropdown button {
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 0.5rem 0.65rem;
+  border-radius: 0.55rem;
+  font-weight: 600;
+  color: #4a3728;
+  cursor: pointer;
+}
+
+.avatar-dropdown a:hover,
+.avatar-dropdown a:focus,
+.avatar-dropdown button:hover,
+.avatar-dropdown button:focus {
+  background: rgba(15, 140, 113, 0.12);
+  color: #154e3f;
 }
 
 .nav-link {
@@ -77,14 +186,22 @@
 @media (max-width: 768px) {
   .top-nav {
     width: min(1100px, calc(100% - 1.25rem));
+    padding: 0.8rem 0;
+  }
+
+  .nav-row {
     flex-direction: column;
     align-items: flex-start;
-    padding: 0.8rem 0;
+  }
+
+  .nav-account {
+    width: 100%;
+    margin-left: 0;
   }
 
   .nav-links {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 0.35rem;
   }
 

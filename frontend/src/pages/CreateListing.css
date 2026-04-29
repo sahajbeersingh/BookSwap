@@ -1,0 +1,77 @@
+.create-listing-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.create-listing-form fieldset {
+  margin: 0;
+  border: 1px solid rgba(43, 29, 17, 0.16);
+  border-radius: 0.9rem;
+  padding: 0.9rem;
+  background: #fffef9;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.create-listing-form legend {
+  padding: 0 0.35rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 700;
+}
+
+.create-listing-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: #38281c;
+}
+
+.field-hint {
+  font-size: 0.82rem;
+  color: #6f5c4a;
+  font-weight: 500;
+}
+
+.create-listing-form input,
+.create-listing-form select,
+.create-listing-form textarea {
+  width: 100%;
+  border: 1px solid rgba(43, 29, 17, 0.25);
+  border-radius: 0.65rem;
+  padding: 0.64rem 0.75rem;
+  background: #fffdf8;
+  color: #2b1d11;
+}
+
+.create-listing-form textarea {
+  resize: vertical;
+}
+
+.field-error {
+  margin: -0.2rem 0 0.15rem;
+  color: #8c2436;
+  font-size: 0.89rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 900px) {
+  .create-listing-form fieldset {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 0.75rem;
+  }
+
+  .create-listing-form legend {
+    grid-column: 1 / -1;
+  }
+
+  .create-listing-form label:has(textarea),
+  .create-listing-form label:has(#book-cover),
+  .create-listing-form label:has(#listing-description) {
+    grid-column: 1 / -1;
+  }
+}

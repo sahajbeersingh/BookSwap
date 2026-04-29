@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Auth.css";
-import { authApi, extractApiError } from "../lib/api";
+import { authApi, extractApiError, setAuthToken } from "../lib/api";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -28,8 +28,15 @@ function Login() {
     try {
       setLoading(true);
       const data = await authApi.login({ email, password });
-      if (data?.session?.access_token) {
-        localStorage.setItem("bookswap.accessToken", data.session.access_token);
+      const token =
+        data?.session?.access_token ||
+        data?.access_token ||
+        data?.accessToken ||
+        data?.token ||
+        "";
+      if (token) {
+        localStorage.setItem("bookswap.accessToken", token);
+        setAuthToken(token);
       }
       setSuccess("Signed in successfully.");
     } catch (apiError) {

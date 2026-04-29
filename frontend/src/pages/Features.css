@@ -1,0 +1,126 @@
+.features-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.features-hero {
+  border: 1px solid rgba(43, 29, 17, 0.12);
+  border-radius: 1.2rem;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  background:
+    radial-gradient(circle at 8% 18%, rgba(15, 140, 113, 0.22), transparent 38%),
+    linear-gradient(135deg, #fff4e4 0%, #ffffff 100%);
+  box-shadow: 0 18px 34px rgba(43, 29, 17, 0.08);
+}
+
+.features-tag {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-weight: 700;
+  font-size: 0.76rem;
+  color: #0f6e58;
+}
+
+.features-hero h1 {
+  margin: 0.55rem 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  line-height: 1.1;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.features-hero p {
+  margin: 0.65rem 0 0;
+  max-width: 60ch;
+  color: #5f4b3c;
+}
+
+.features-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.feature-card {
+  border: 1px solid rgba(43, 29, 17, 0.12);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: #fffef9;
+}
+
+.feature-card h2 {
+  margin: 0 0 0.45rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.25rem;
+}
+
+.feature-card p {
+  margin: 0;
+  color: #5f4b3c;
+}
+
+.features-steps {
+  border: 1px solid rgba(43, 29, 17, 0.12);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.features-steps h2 {
+  margin: 0 0 0.9rem;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.4rem;
+}
+
+.features-steps ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.features-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border: 1px solid rgba(15, 140, 113, 0.18);
+  border-radius: 0.9rem;
+  padding: 0.85rem;
+  background: rgba(15, 140, 113, 0.06);
+}
+
+.step-index {
+  min-width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f8c71;
+  color: #f9fffd;
+  font-weight: 700;
+}
+
+.features-steps h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.features-steps p {
+  margin: 0.35rem 0 0;
+  color: #5f4b3c;
+}
+
+@media (max-width: 800px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
