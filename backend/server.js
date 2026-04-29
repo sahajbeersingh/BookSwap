@@ -9,12 +9,16 @@ const wishlistRoutes = require("./routes/wishlistRoutes");
 const collectionRoutes = require("./routes/collectionRoutes");
 const tradeRequestRoutes = require("./routes/tradeRequestRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const userRoutes = require("./routes/userRoutes");
+
+
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/listing", listingROutes);
