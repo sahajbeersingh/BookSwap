@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { PageHeader, PageShell, SectionCard, StatusState } from "../components/PageLayout";
+import {
+  PageHeader,
+  PageShell,
+  SectionCard,
+  StatusState,
+} from "../components/PageLayout";
 import {
   collectionApi,
   extractApiError,
@@ -37,6 +42,8 @@ function BookDetail() {
   const { listingId } = useParams();
 
   const [listing, setListing] = useState(null);
+  const [seller, setSeller] = useState(null);
+  const [sellerLoading, setSellerLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { user } = useAuth();
@@ -70,7 +77,9 @@ function BookDetail() {
       } catch (apiError) {
         if (!cancelled) {
           setListing(null);
-          setError(extractApiError(apiError, "Unable to load listing details."));
+          setError(
+            extractApiError(apiError, "Unable to load listing details."),
+          );
         }
       } finally {
         if (!cancelled) {
@@ -128,16 +137,53 @@ function BookDetail() {
         setTradeSuccess("");
       }, 900);
     } catch (apiError) {
-      setTradeError(extractApiError(apiError, "Unable to submit trade request."));
+      setTradeError(
+        extractApiError(apiError, "Unable to submit trade request."),
+      );
     } finally {
       setTradeSubmitting(false);
     }
   };
+  useEffect(() => {
+    if (!listing?.seller_id) return;
+
+    let cancelled = false;
+
+    const fetchSeller = async () => {
+      try {
+        setSellerLoading(true);
+
+        const res = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/users/${listing.seller_id}`,
+        );
+        const data = await res.json();
+
+        if (!cancelled) {
+          setSeller(data.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch seller:", err);
+      } finally {
+        if (!cancelled) {
+          setSellerLoading(false);
+        }
+      }
+    };
+
+    fetchSeller();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [listing]);
 
   const handleWishlist = async () => {
     const bookId = book?.id;
     if (!bookId) {
-      setActionNotice({ type: "error", message: "Missing book for wishlist action." });
+      setActionNotice({
+        type: "error",
+        message: "Missing book for wishlist action.",
+      });
       return;
     }
 
@@ -159,7 +205,10 @@ function BookDetail() {
   const handleCollection = async () => {
     const bookId = book?.id;
     if (!bookId) {
-      setActionNotice({ type: "error", message: "Missing book for collection action." });
+      setActionNotice({
+        type: "error",
+        message: "Missing book for collection action.",
+      });
       return;
     }
 
@@ -185,7 +234,9 @@ function BookDetail() {
       { label: "Publisher", value: book.publisher || "Not listed" },
       {
         label: "Publication year",
-        value: book.publication_year ? String(book.publication_year) : "Not listed",
+        value: book.publication_year
+          ? String(book.publication_year)
+          : "Not listed",
       },
       { label: "Genre", value: book.genre || "General" },
       { label: "Condition", value: listing?.condition || "Not listed" },
@@ -252,7 +303,11 @@ function BookDetail() {
                 {bookImages.length > 0 ? (
                   <div className="detail-carousel" role="list">
                     {bookImages.map((imageUrl, index) => (
-                      <div className="detail-slide" role="listitem" key={imageUrl || index}>
+                      <div
+                        className="detail-slide"
+                        role="listitem"
+                        key={imageUrl || index}
+                      >
                         <img src={imageUrl} alt="" loading="lazy" />
                       </div>
                     ))}
@@ -267,15 +322,23 @@ function BookDetail() {
               <div className="detail-summary">
                 <p className="detail-price">{formatPrice(listing.price)}</p>
                 <h2>{book.title || "Untitled Book"}</h2>
-                <p className="detail-author">by {book.author || "Unknown author"}</p>
+                <p className="detail-author">
+                  by {book.author || "Unknown author"}
+                </p>
                 <p className="detail-description">
-                  {listing.description || book.description || "No description has been added yet."}
+                  {listing.description ||
+                    book.description ||
+                    "No description has been added yet."}
                 </p>
 
                 {actionNotice.message ? (
                   <StatusState
                     tone={actionNotice.type === "error" ? "error" : "info"}
-                    title={actionNotice.type === "error" ? "Action failed" : "Action complete"}
+                    title={
+                      actionNotice.type === "error"
+                        ? "Action failed"
+                        : "Action complete"
+                    }
                     message={actionNotice.message}
                   />
                 ) : null}
@@ -355,18 +418,21 @@ function BookDetail() {
           <SectionCard
             id="seller-info"
             title="Seller"
-            description="Current seller details exposed by this listing"
+            description="Current seller details"
           >
             <div className="seller-panel">
-              <p>
-                <strong>Seller ID:</strong> {listing.seller_id || "Not provided"}
-              </p>
-              <p>
-                <strong>Listing ID:</strong> {listing.id}
-              </p>
-              <p>
-                Seller profile details will be expanded once dedicated profile endpoints are connected.
-              </p>
+              {sellerLoading ? (
+                <p>Loading seller details...</p>
+              ) : seller ? (
+                <>
+                  <p>
+                    <strong>Seller:</strong> {seller.username || "No name"}
+                  </p>
+                </>
+              ) : (
+                <p>Seller info not available</p>
+              )}
+
               <Link className="btn btn-ghost" to="/messages">
                 Message seller
               </Link>
@@ -418,17 +484,33 @@ function BookDetail() {
               </label>
 
               {tradeError ? (
-                <StatusState tone="error" title="Trade request failed" message={tradeError} />
+                <StatusState
+                  tone="error"
+                  title="Trade request failed"
+                  message={tradeError}
+                />
               ) : null}
               {tradeSuccess ? (
-                <StatusState tone="info" title="Trade request sent" message={tradeSuccess} />
+                <StatusState
+                  tone="info"
+                  title="Trade request sent"
+                  message={tradeSuccess}
+                />
               ) : null}
 
               <div className="trade-modal-actions">
-                <button className="btn btn-ghost" type="button" onClick={() => setIsTradeOpen(false)}>
+                <button
+                  className="btn btn-ghost"
+                  type="button"
+                  onClick={() => setIsTradeOpen(false)}
+                >
                   Cancel
                 </button>
-                <button className="btn btn-primary" type="submit" disabled={tradeSubmitting}>
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  disabled={tradeSubmitting}
+                >
                   {tradeSubmitting ? "Sending..." : "Send request"}
                 </button>
               </div>
