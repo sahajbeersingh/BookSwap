@@ -194,10 +194,19 @@
   gap: 0.6rem;
 }
 
-.listing-comments {
-  font-size: 0.85rem;
-  color: #6f5c4a;
+.action-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.action-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
 
 .listing-comment-form {
   display: flex;

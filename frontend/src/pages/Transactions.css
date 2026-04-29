@@ -25,6 +25,28 @@
   gap: 0.85rem;
 }
 
+.request-cards {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.request-eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  color: #0f6e58;
+  font-weight: 700;
+}
+
+.request-note {
+  margin: 0;
+  color: #5b4a3b;
+  background: rgba(15, 140, 113, 0.06);
+  border-radius: 0.75rem;
+  padding: 0.6rem 0.7rem;
+}
+
 .request-card {
   border: 1px solid rgba(43, 29, 17, 0.14);
   border-radius: 1rem;

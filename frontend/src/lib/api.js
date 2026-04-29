@@ -84,12 +84,20 @@ export const listingApi = {
     const response = await api.get("/api/listing", { params });
     return response.data;
   },
+  getMine: async () => {
+    const response = await api.get("/api/listing/mine");
+    return response.data;
+  },
   getById: async (id) => {
     const response = await api.get(`/api/listing/${id}`);
     return response.data;
   },
   create: async (payload) => {
     const response = await api.post("/api/listing", payload);
+    return response.data;
+  },
+  remove: async (id) => {
+    const response = await api.delete(`/api/listing/${id}`);
     return response.data;
   },
 };
@@ -153,6 +161,36 @@ export const collectionApi = {
   },
   remove: async (id) => {
     const response = await api.delete(`/api/collection/${id}`);
+    return response.data;
+  },
+};
+
+export const tradeRequestApi = {
+  create: async (payload) => {
+    const response = await api.post("/api/trade-requests", payload);
+    return response.data;
+  },
+  getIncoming: async () => {
+    const response = await api.get("/api/trade-requests/incoming");
+    return response.data;
+  },
+  getOutgoing: async () => {
+    const response = await api.get("/api/trade-requests/outgoing");
+    return response.data;
+  },
+  getAll: async () => {
+    const response = await api.get("/api/trade-requests");
+    return response.data;
+  },
+};
+
+export const messageApi = {
+  getByTradeRequest: async (tradeRequestId) => {
+    const response = await api.get(`/api/messages/trade-request/${tradeRequestId}`);
+    return response.data;
+  },
+  send: async (payload) => {
+    const response = await api.post("/api/messages", payload);
     return response.data;
   },
 };

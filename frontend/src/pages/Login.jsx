@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
 import { authApi, extractApiError, persistAuthToken } from "../lib/api";
+import supabase from "../lib/supabaseClient";
 
 function Login() {
   const navigate = useNavigate();
@@ -29,12 +30,19 @@ function Login() {
     try {
       setLoading(true);
       const data = await authApi.login({ email, password });
+      const session = data?.session || null;
       const token =
-        data?.session?.access_token ||
+        session?.access_token ||
         data?.access_token ||
         data?.accessToken ||
         data?.token ||
         "";
+      if (session?.access_token && session?.refresh_token) {
+        await supabase.auth.setSession({
+          access_token: session.access_token,
+          refresh_token: session.refresh_token,
+        });
+      }
       persistAuthToken(token);
       setSuccess("Signed in successfully.");
       if (token) {

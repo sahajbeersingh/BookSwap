@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { PageHeader, PageShell, SectionCard, StatusState } from "../components/PageLayout";
 import { extractApiError, wishlistApi } from "../lib/api";
 import "./WishlistCollection.css";
@@ -54,11 +53,6 @@ function Wishlist() {
         eyebrow="Saved"
         title="Wishlist"
         description="Books you want to buy or trade, synced from your real profile data."
-        actions={
-          <Link className="btn btn-primary" to="/books">
-            Browse books
-          </Link>
-        }
       />
 
       <SectionCard
@@ -88,8 +82,6 @@ function Wishlist() {
             tone="neutral"
             title="Your wishlist is empty"
             message="Save books from listing detail pages to track them here."
-            actionLabel="Discover books"
-            actionTo="/books"
           />
         ) : null}
 
@@ -106,9 +98,6 @@ function Wishlist() {
                   <p className="entity-subtitle">by {entry.books?.author || "Unknown author"}</p>
                   <p className="entity-note">ISBN: {entry.books?.isbn || "Not listed"}</p>
                   <div className="entity-actions">
-                    <Link className="btn btn-ghost" to="/books">
-                      Browse listings
-                    </Link>
                     <button
                       className="btn btn-primary"
                       type="button"

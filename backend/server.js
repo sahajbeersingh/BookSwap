@@ -7,6 +7,8 @@ const bookRoutes = require("./routes/bookRoutes");
 const listingROutes = require("./routes/listingRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const collectionRoutes = require("./routes/collectionRoutes");
+const tradeRequestRoutes = require("./routes/tradeRequestRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 
 const app = express();
 
@@ -18,6 +20,8 @@ app.use("/api/books", bookRoutes);
 app.use("/api/listing", listingROutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/collection", collectionRoutes);
+app.use("/api/trade-requests", tradeRequestRoutes);
+app.use("/api/messages", messageRoutes);
 
 app.get("/", (req, res) => {
   res.send("BookSwap Backend Running");

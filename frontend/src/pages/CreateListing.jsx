@@ -5,7 +5,13 @@ import { bookApi, extractApiError, listingApi } from "../lib/api";
 import supabase from "../lib/supabaseClient";
 import "./CreateListing.css";
 
-const CONDITION_OPTIONS = ["Like New", "Very Good", "Good", "Fair", "Poor"];
+const CONDITION_OPTIONS = [
+  { value: "like_new", label: "Like New" },
+  { value: "very_good", label: "Very Good" },
+  { value: "good", label: "Good" },
+  { value: "acceptable", label: "Acceptable" },
+  { value: "new", label: "New" },
+];
 
 const initialBookValues = {
   title: "",
@@ -20,7 +26,7 @@ const initialBookValues = {
 
 const initialListingValues = {
   price: "",
-  condition: "Good",
+  condition: "good",
   description: "",
 };
 
@@ -54,7 +60,7 @@ function CreateListing() {
       author: bookValues.author.trim().length >= 2,
       isbn: bookValues.isbn.trim().length >= 10,
       price: Number(listingValues.price) > 0,
-      condition: CONDITION_OPTIONS.includes(listingValues.condition),
+      condition: CONDITION_OPTIONS.some((option) => option.value === listingValues.condition),
       publication_year:
         !bookValues.publication_year ||
         (Number.isInteger(year) && year >= 1400 && year <= new Date().getFullYear()),
@@ -379,8 +385,8 @@ function CreateListing() {
                 required
               >
                 {CONDITION_OPTIONS.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+                  <option key={option.value} value={option.value}>
+                    {option.label}
                   </option>
                 ))}
               </select>

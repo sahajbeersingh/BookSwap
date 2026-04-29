@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageHeader, PageShell, SectionCard, StatusState } from "../components/PageLayout";
-import { authApi, extractApiError } from "../lib/api";
+import { authApi, extractApiError, listingApi } from "../lib/api";
 import "./Profile.css";
 
 function Profile() {
@@ -9,6 +9,10 @@ function Profile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [listings, setListings] = useState([]);
+  const [listingsLoading, setListingsLoading] = useState(true);
+  const [listingsError, setListingsError] = useState("");
+  const [listingBusyId, setListingBusyId] = useState("");
 
   const loadProfile = async () => {
     try {
@@ -28,8 +32,23 @@ function Profile() {
     }
   };
 
+  const loadListings = async () => {
+    try {
+      setListingsLoading(true);
+      setListingsError("");
+      const response = await listingApi.getMine();
+      setListings(Array.isArray(response?.data) ? response.data : []);
+    } catch (apiError) {
+      setListingsError(extractApiError(apiError, "Unable to load your listings."));
+      setListings([]);
+    } finally {
+      setListingsLoading(false);
+    }
+  };
+
   useEffect(() => {
     loadProfile();
+    loadListings();
   }, []);
 
   const joinedDate = useMemo(() => {
@@ -128,6 +147,87 @@ function Profile() {
                 </dd>
               </div>
             </dl>
+          </SectionCard>
+
+          <SectionCard
+            id="profile-listings"
+            title="Your listings"
+            description="Listings you have created."
+            action={
+              <button
+                className="btn btn-ghost"
+                type="button"
+                onClick={loadListings}
+                disabled={listingsLoading}
+              >
+                {listingsLoading ? "Refreshing..." : "Refresh"}
+              </button>
+            }
+          >
+            {listingsLoading ? (
+              <StatusState
+                tone="info"
+                title="Loading listings"
+                message="Fetching your latest listings..."
+              />
+            ) : null}
+
+            {!listingsLoading && listingsError ? (
+              <StatusState tone="error" title="Could not load listings" message={listingsError} />
+            ) : null}
+
+            {!listingsLoading && !listingsError && listings.length === 0 ? (
+              <StatusState
+                tone="neutral"
+                title="No listings yet"
+                message="Create a listing to see it here."
+              />
+            ) : null}
+
+            {!listingsLoading && !listingsError && listings.length > 0 ? (
+              <div className="profile-listings" role="list">
+                {listings.map((listing) => (
+                  <article className="profile-listing-card" role="listitem" key={listing.id}>
+                    <p className="profile-listing-eyebrow">{listing.books?.genre || "General"}</p>
+                    <h3>{listing.books?.title || "Untitled Book"}</h3>
+                    <p className="profile-listing-subtitle">
+                      by {listing.books?.author || "Unknown author"}
+                    </p>
+                    <p className="profile-listing-meta">
+                      Condition: {listing.condition || "Not set"}
+                    </p>
+                    <p className="profile-listing-meta">
+                      Price: {listing.price ? `$${listing.price}` : "N/A"}
+                    </p>
+                    <div className="profile-listing-actions">
+                      <Link className="btn btn-ghost" to={`/books/${listing.id}`}>
+                        View
+                      </Link>
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={async () => {
+                          try {
+                            setListingBusyId(listing.id);
+                            await listingApi.remove(listing.id);
+                            setListings((prev) => prev.filter((item) => item.id !== listing.id));
+                          } catch (apiError) {
+                            setListingsError(
+                              extractApiError(apiError, "Unable to delete listing."),
+                            );
+                          } finally {
+                            setListingBusyId("");
+                          }
+                        }}
+                        disabled={listingBusyId === listing.id}
+                      >
+                        {listingBusyId === listing.id ? "Deleting..." : "Delete"}
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : null}
           </SectionCard>
         </div>
       ) : null}

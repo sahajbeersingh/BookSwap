@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { PageHeader, PageShell, SectionCard, StatusState } from "../components/PageLayout";
 import { collectionApi, extractApiError } from "../lib/api";
 import "./WishlistCollection.css";
@@ -64,12 +63,7 @@ function Collection() {
       <PageHeader
         eyebrow="Library"
         title="My collection"
-        description="Books currently in your ownership, synced with /api/collection."
-        actions={
-          <Link className="btn btn-primary" to="/books">
-            Add from books
-          </Link>
-        }
+        description="Your private library of books you own and track."
       />
 
       <SectionCard
@@ -99,8 +93,6 @@ function Collection() {
             tone="neutral"
             title="No books in your collection"
             message="Add books to your collection to track reading status and notes."
-            actionLabel="Browse marketplace"
-            actionTo="/books"
           />
         ) : null}
 

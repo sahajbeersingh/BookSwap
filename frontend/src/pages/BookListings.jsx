@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageHeader, PageShell, SectionCard, StatusState } from "../components/PageLayout";
-import { bookApi, extractApiError, listingApi } from "../lib/api";
+import { bookApi, collectionApi, extractApiError, listingApi, wishlistApi } from "../lib/api";
 import "./BookListings.css";
 
 const SORT_OPTIONS = [
@@ -13,12 +13,20 @@ const SORT_OPTIONS = [
 
 const CONDITION_OPTIONS = [
   { value: "all", label: "All conditions" },
-  { value: "Like New", label: "Like New" },
-  { value: "Very Good", label: "Very Good" },
-  { value: "Good", label: "Good" },
-  { value: "Fair", label: "Fair" },
-  { value: "Poor", label: "Poor" },
+  { value: "new", label: "New" },
+  { value: "like_new", label: "Like New" },
+  { value: "very_good", label: "Very Good" },
+  { value: "good", label: "Good" },
+  { value: "acceptable", label: "Acceptable" },
 ];
+
+const CONDITION_LABELS = {
+  new: "New",
+  like_new: "Like New",
+  very_good: "Very Good",
+  good: "Good",
+  acceptable: "Acceptable",
+};
 
 const COMMUNITY_LIST = [
   { name: "Campus Reads", members: "12.4k members" },
@@ -34,7 +42,8 @@ const normalizeListing = (item) => ({
   title: item.books?.title || "Untitled Book",
   author: item.books?.author || "Unknown author",
   genre: item.books?.genre || "General",
-  condition: item.condition || "Condition N/A",
+  condition: item.condition || "",
+  conditionLabel: CONDITION_LABELS[item.condition] || "Condition N/A",
   description: item.description || item.books?.description || "No description provided.",
   price: typeof item.price === "number" ? item.price : Number(item.price),
   createdAt: item.created_at || "",
@@ -53,6 +62,8 @@ function BookListings() {
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState("");
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [actionNotice, setActionNotice] = useState({ type: "", message: "" });
+  const [actionLoading, setActionLoading] = useState({ type: "", bookId: null });
 
   const loadListings = async () => {
     setLoading(true);
@@ -77,6 +88,18 @@ function BookListings() {
   useEffect(() => {
     loadListings();
   }, []);
+
+  useEffect(() => {
+    if (!actionNotice.message) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setActionNotice({ type: "", message: "" });
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [actionNotice]);
 
   useEffect(() => {
     let cancelled = false;
@@ -161,6 +184,48 @@ function BookListings() {
   const updatedLabel = lastUpdated
     ? lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
     : "not yet";
+
+  const handleWishlist = async (bookId) => {
+    if (!bookId) {
+      setActionNotice({ type: "error", message: "Missing book for wishlist action." });
+      return;
+    }
+
+    try {
+      setActionLoading({ type: "wishlist", bookId });
+      setActionNotice({ type: "", message: "" });
+      await wishlistApi.add({ book_id: bookId });
+      setActionNotice({ type: "success", message: "Added to wishlist." });
+    } catch (apiError) {
+      setActionNotice({
+        type: "error",
+        message: extractApiError(apiError, "Unable to add to wishlist."),
+      });
+    } finally {
+      setActionLoading({ type: "", bookId: null });
+    }
+  };
+
+  const handleCollection = async (bookId) => {
+    if (!bookId) {
+      setActionNotice({ type: "error", message: "Missing book for collection action." });
+      return;
+    }
+
+    try {
+      setActionLoading({ type: "collection", bookId });
+      setActionNotice({ type: "", message: "" });
+      await collectionApi.add({ book_id: bookId });
+      setActionNotice({ type: "success", message: "Added to collection." });
+    } catch (apiError) {
+      setActionNotice({
+        type: "error",
+        message: extractApiError(apiError, "Unable to add to collection."),
+      });
+    } finally {
+      setActionLoading({ type: "", bookId: null });
+    }
+  };
 
   return (
     <PageShell>
@@ -269,6 +334,14 @@ function BookListings() {
               />
             ) : null}
 
+            {!loading && actionNotice.message ? (
+              <StatusState
+                tone={actionNotice.type === "error" ? "error" : "info"}
+                title={actionNotice.type === "error" ? "Action failed" : "Action complete"}
+                message={actionNotice.message}
+              />
+            ) : null}
+
             {!loading && error ? (
               <StatusState
                 tone="error"
@@ -325,7 +398,7 @@ function BookListings() {
                       </div>
 
                       <div className="listing-footer">
-                        <span className="listing-condition">{listing.condition}</span>
+                        <span className="listing-condition">{listing.conditionLabel}</span>
                         <span className="listing-price">
                           {Number.isFinite(listing.price) ? `$${listing.price}` : "Price N/A"}
                         </span>
@@ -335,10 +408,44 @@ function BookListings() {
                       </div>
 
                       <div className="listing-actions">
-                        <button className="btn btn-ghost" type="button">
-                          Comment
+                        <button
+                          className="btn btn-ghost"
+                          type="button"
+                          onClick={() => handleWishlist(listing.bookId)}
+                          disabled={
+                            actionLoading.type === "wishlist" &&
+                            actionLoading.bookId === listing.bookId
+                          }
+                          aria-label="Save to wishlist"
+                        >
+                          <span className="action-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img" focusable="false">
+                              <path
+                                d="M6 4.5c0-.83.67-1.5 1.5-1.5h9c.83 0 1.5.67 1.5 1.5v16.5l-6-3-6 3V4.5z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </span>
                         </button>
-                        <span className="listing-comments">No comments yet</span>
+                        <button
+                          className="btn btn-ghost"
+                          type="button"
+                          onClick={() => handleCollection(listing.bookId)}
+                          disabled={
+                            actionLoading.type === "collection" &&
+                            actionLoading.bookId === listing.bookId
+                          }
+                          aria-label="Add to collection"
+                        >
+                          <span className="action-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img" focusable="false">
+                              <path
+                                d="M12 2l2.92 5.92 6.54.95-4.73 4.61 1.12 6.52L12 16.9l-5.85 3.07 1.12-6.52-4.73-4.61 6.54-.95L12 2z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                          </span>
+                        </button>
                       </div>
 
                       <form
