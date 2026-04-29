@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
-import { authApi, extractApiError, setAuthToken } from "../lib/api";
+import { authApi, extractApiError, persistAuthToken } from "../lib/api";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -34,11 +35,11 @@ function Login() {
         data?.accessToken ||
         data?.token ||
         "";
-      if (token) {
-        localStorage.setItem("bookswap.accessToken", token);
-        setAuthToken(token);
-      }
+      persistAuthToken(token);
       setSuccess("Signed in successfully.");
+      if (token) {
+        navigate("/books");
+      }
     } catch (apiError) {
       setError(extractApiError(apiError, "Unable to sign in right now. Please try again."));
     } finally {

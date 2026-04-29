@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import { setAuthToken } from "../lib/api";
+import { persistAuthToken } from "../lib/api";
 import "./Navbar.css";
 
 const authNavItems = [
@@ -33,11 +33,9 @@ function Navbar() {
   const menuRef = useRef(null);
 
   const handleLogout = () => {
-    localStorage.removeItem("bookswap.accessToken");
-    setAuthToken("");
+    persistAuthToken("");
     setMenuOpen(false);
     navigate("/");
-    window.location.reload();
   };
 
   useEffect(() => {

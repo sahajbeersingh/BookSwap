@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Auth.css";
-import { authApi, extractApiError } from "../lib/api";
+import { authApi, extractApiError, persistAuthToken } from "../lib/api";
 
 function Sign() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +30,18 @@ function Sign() {
 
     try {
       setLoading(true);
-      await authApi.signup({ username: username.trim(), email, password });
-      setSuccess("Account created. You can now sign in.");
+      const data = await authApi.signup({ username: username.trim(), email, password });
+      const token =
+        data?.session?.access_token ||
+        data?.access_token ||
+        data?.accessToken ||
+        data?.token ||
+        "";
+      persistAuthToken(token);
+      setSuccess("Account created. You're now signed in.");
+      if (token) {
+        navigate("/books");
+      }
       setUsername("");
       setEmail("");
       setPassword("");

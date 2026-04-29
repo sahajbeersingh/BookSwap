@@ -21,8 +21,16 @@ export default function useAuth() {
       setToken(getStoredToken());
     };
 
+    const handleTokenChange = () => {
+      setToken(getStoredToken());
+    };
+
     window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
+    window.addEventListener("auth-token-changed", handleTokenChange);
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("auth-token-changed", handleTokenChange);
+    };
   }, []);
 
   useEffect(() => {

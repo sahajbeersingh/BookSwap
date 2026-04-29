@@ -10,7 +10,8 @@ const createBook = async (req, res) => {
       publication_year,
       genre,
       description,
-      cover_image
+      cover_image,
+      images
     } = req.body;
 
     title = title?.trim();
@@ -37,6 +38,8 @@ const createBook = async (req, res) => {
       });
     }
 
+    const normalizedImages = Array.isArray(images) ? images.slice(0, 7) : null;
+
     const { data, error } = await supabase
       .from('books')
       .insert([
@@ -48,7 +51,8 @@ const createBook = async (req, res) => {
           publication_year: publication_year || null,
           genre: genre || null,
           description: description || null,
-          cover_image: cover_image || null
+          cover_image: cover_image || null,
+          images: normalizedImages && normalizedImages.length ? normalizedImages : null
         }
       ])
       .select();

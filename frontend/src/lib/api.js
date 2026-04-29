@@ -28,6 +28,21 @@ export const setAuthToken = (token) => {
   }
 };
 
+export const persistAuthToken = (token) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const normalized = normalizeToken(token);
+  if (normalized) {
+    localStorage.setItem(TOKEN_KEY, normalized);
+  } else {
+    localStorage.removeItem(TOKEN_KEY);
+  }
+  setAuthToken(normalized);
+  window.dispatchEvent(new Event("auth-token-changed"));
+};
+
 setAuthToken(getToken());
 
 api.interceptors.request.use((config) => {
