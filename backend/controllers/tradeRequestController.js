@@ -46,6 +46,21 @@ exports.createTradeRequest = async (req, res) => {
   }
 };
 
+exports.getIncomingRequests = async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("trade_requests")
+      .select("*, listings (*, books (*))")
+      .eq("seller_id", req.user.id)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    res.status(200).json({ data });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 exports.getOutgoingRequests = async (req, res) => {
   try {
@@ -64,6 +79,12 @@ exports.getOutgoingRequests = async (req, res) => {
 };
 
 exports.getMyRequests = async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("trade_requests")
+      .select("*, listings (*, books (*))")
+      .or(`seller_id.eq.${req.user.id},buyer_id.eq.${req.user.id}`)
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 
