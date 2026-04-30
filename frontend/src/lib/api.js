@@ -43,7 +43,6 @@ export const persistAuthToken = (token) => {
   window.dispatchEvent(new Event("auth-token-changed"));
 };
 
-setAuthToken(getToken());
 
 api.interceptors.request.use((config) => {
   const token = normalizeToken(getToken());

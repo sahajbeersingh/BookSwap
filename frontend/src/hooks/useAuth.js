@@ -12,9 +12,16 @@ const getStoredToken = () => {
 };
 
 export default function useAuth() {
-  const [token, setToken] = useState(getStoredToken);
+  const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(Boolean(getStoredToken()));
+  const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    const stored = getStoredToken();
+    setToken(stored);
+    setInitialized(true);
+  }, []);
 
   useEffect(() => {
     const handleStorage = () => {
@@ -34,6 +41,8 @@ export default function useAuth() {
   }, []);
 
   useEffect(() => {
+    if (!initialized) return;
+
     let active = true;
 
     const loadUser = async () => {
@@ -46,17 +55,11 @@ export default function useAuth() {
       try {
         setLoading(true);
         const me = await authApi.me();
-        if (active) {
-          setUser(me || null);
-        }
+        if (active) setUser(me || null);
       } catch {
-        if (active) {
-          setUser(null);
-        }
+        if (active) setUser(null);
       } finally {
-        if (active) {
-          setLoading(false);
-        }
+        if (active) setLoading(false);
       }
     };
 
@@ -65,8 +68,7 @@ export default function useAuth() {
     return () => {
       active = false;
     };
-  }, [token]);
-
+  }, [token, initialized]);
   const isAuthenticated = useMemo(() => Boolean(token), [token]);
 
   return {
